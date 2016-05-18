@@ -1,21 +1,37 @@
 def decode(codestring):
     # 12WB12W3B24WB to WWWWWWWWWWWWBWWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWB
     decode_string = ""
-    # while the string exists
-        # if next is a number
-            # 1. detach number, store as count
-            # 2. detach next letter, multiply by count
-            # 3. append to codestring
-        # if next is a letter
-            # append single letter to codestring
-    return codestring
+    count = 1
+    i = 1
+
+    while i <= len(codestring):
+        # pop first item off
+        item = codestring[i-1]
+        # if it's a number, store
+        if item.isdigit():
+            count = int(item)
+            # if next number is also a number, pop off and store
+            if codestring[i].isdigit():
+                next_num = codestring[i]
+                count = int(str(count) + next_num)
+                i += 1
+            i += 1
+        else:
+            # decode_string adds that letter times count
+            decode_string = decode_string + (item * count)
+            i +=1
+            count = 1
+    decode_string = decode_string + (item * (count-1))
+    return decode_string
+
+
 
 def encode(codestring):
     # WWWWWWWWWWWWBWWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWB to 12WB12W3B24WB
     encode_string = ""
     count = 1
     i = 1
-    # while the string exists
+
     while i < len(codestring):
         # if current letter matches next letter
         if codestring[i-1] == codestring[i]:
@@ -37,3 +53,8 @@ def encode(codestring):
     else:
         encode_string =  encode_string + str(count) + codestring[i-1]     
     return encode_string
+
+
+
+if __name__ == '__main__':
+    print(decode('12WB12W3B24WB'))
