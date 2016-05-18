@@ -12,11 +12,11 @@ def hey(what):
             what = what.replace("?", "")
             if what.isdigit():
                 return 'Sure.'
-            elif what == what.upper():
+            elif what.isupper():
                 return 'Whoa, chill out!'
             else:
                 return 'Sure.'
-        elif what == what.upper():
+        elif what.isupper():
             if what.isdigit():
                 return 'Whatever.'
             else:
