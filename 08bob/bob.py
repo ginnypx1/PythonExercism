@@ -7,21 +7,14 @@ def hey(what):
     what = what.strip()
     what = what.replace(",", "")
     what = what.replace(" ", "")
+
     if what:
-        if what[-1:] == "?":
-            what = what.replace("?", "")
-            if what.isdigit():
-                return 'Sure.'
-            elif what.isupper():
-                return 'Whoa, chill out!'
-            else:
-                return 'Sure.'
-        elif what.isupper():
-            if what.isdigit():
-                return 'Whatever.'
-            else:
-                return 'Whoa, chill out!'
+        if what.isupper():
+            return 'Whoa, chill out!'
+        elif what[-1:] == "?":
+            return 'Sure.'
         else:
             return 'Whatever.'
     else:
-        return "Fine. Be that way!"
+        return 'Fine. Be that way!'
+
