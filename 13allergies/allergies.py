@@ -1,37 +1,34 @@
-# I'm not sure I understand from the directions what lst is asking for... 
-# My understanding based on the tests is either return the allergy with the specific value or all.
-# Another version would be to return everything less than the score, but then the 'peanuts only' test would include an allergy to eggs.
-
-class Allergies:
+class Allergies(object):
     """Results of an allergy test"""
-    allergins = {
-        'eggs': 1,
-        'peanuts': 2,
-        'shellfish': 4,
-        'strawberries': 8,
-        'tomatoes': 16,
-        'chocolate': 32,
-        'pollen': 64,
-        'cats': 128
+    allergens = {
+        1: 'eggs',
+        2: 'peanuts',
+        4: 'shellfish',
+        8: 'strawberries',
+        16: 'tomatoes',
+        32: 'chocolate',
+        64: 'pollen',
+        128: 'cats'
     }
 
     def __init__(self, score):
         self.score = score
+        self.lst = self.lst()
 
-    @property
     def lst(self):
-        allergin_list = []
-        for key, value in self.allergins.items():
-            if value == self.score:
-                allergin_list.append(key)
-        if self.score == 255:
-            for key in self.allergins:
-                allergin_list.append(key)
-        return allergin_list
+        allergen_list = []
+        # sort allergens by key, low to high
+        allergens_vals = sorted(self.allergens) 
+        # while there is still a score
+        while self.score > 0:
+            # find the maximum allergy value that is still lower than the score
+            allergy = max([val for val in allergens_vals if val <= self.score])
+            # add that item to allergen_list
+            allergen_list.append(self.allergens[allergy])
+            # decrease the score
+            self.score -= allergy
+        return allergen_list
 
     def is_allergic_to(self, item):
         '''asks if patient is allergic to a specific item'''
-        if self.allergins[item] <= self.score:
-            return True
-        else:
-            return False
+        return item in self.lst
