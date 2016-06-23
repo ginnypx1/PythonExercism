@@ -1,7 +1,9 @@
-NORTH = "NORTH"
-EAST = "EAST"
-SOUTH = "SOUTH"
-WEST = "WEST"
+import operator
+
+NORTH = (0, 1)
+EAST = (1, 0)
+SOUTH = (0, -1)
+WEST = (-1, 0)
 
 
 class Robot(object):
@@ -37,17 +39,13 @@ class Robot(object):
     def advance(self):
         """Simulates an advance movement"""
         if self.bearing == NORTH:
-            self.y += 1
-            self.coordinates = (self.x, self.y)
+            self.coordinates = tuple(map(operator.add, self.coordinates, NORTH))
         if self.bearing == SOUTH:
-            self.y -= 1
-            self.coordinates = (self.x, self.y)
+            self.coordinates = tuple(map(operator.add, self.coordinates, SOUTH))
         if self.bearing == EAST:
-            self.x += 1
-            self.coordinates = (self.x, self.y)
+            self.coordinates = tuple(map(operator.add, self.coordinates, EAST))
         if self.bearing == WEST:
-            self.x -= 1
-            self.coordinates = (self.x, self.y)
+            self.coordinates = tuple(map(operator.add, self.coordinates, WEST))
         return self.coordinates
 
     def simulate(self, pathstring):
