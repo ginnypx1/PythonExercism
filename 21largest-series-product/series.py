@@ -1,32 +1,32 @@
 from functools import reduce
 
-def slices(numstring, slice_value):
-    # from Python program #14
-    """Chops a given string of numbers into all possible consecuctive slices of the given length"""
-    slice_list = []
-    # convert string to list of numbers
-    intlist = [int(num) for num in numstring]
-    # find subsets
-    for i in range(0, (len(numstring)-slice_value+1)):
-        slice_list.append(intlist[i: i+slice_value])
-    return slice_list
+def slices(numstring, slice_length):
+    """Chops a given string of numbers into all possible consecuctive slices of the given length
+        var numstring: a string of numbers
+        var slice_length: int of the length of the slice desired
+        Returns a value error if the slice_length is zero or longer than the numstring
+    """
+    if (slice_length == 0) or (slice_length > len(numstring)):
+        raise ValueError("Length argument doesn't fit the series.")
 
-def largest_product(numstring, slice_value):
-    if slice_value == 0:
+    return [list(map(int, numstring[i:i+slice_length])) 
+            for i in range(len(numstring)-slice_length+1)]
+
+
+def largest_product(numstring, slice_length):
+    """Returns the value of the largest product created in the various slices of numstring
+        var numstring: a string of numbers
+        var slice_length: int of the length of the slice desired
+        Returns a value error if the slice_length is zero or longer than the numstring
+    """
+    if slice_length == 0:
         return 1
-    elif (slice_value > len(numstring)) or (slice_value < 0):
+    elif (slice_length > len(numstring)) or (slice_length < 0):
         raise ValueError("Length argument doesn't fit the series.")
     else:
         all_products = []
-        largest = 0
-        # split into the relevant slices
-        slice_list = slices(numstring, slice_value)
         # find all of the products
-        for every_slice in slice_list:
+        for every_slice in slices(numstring, slice_length):
             slice_product = reduce(lambda x,y: x*y, every_slice)
             all_products.append(slice_product)
-        # find the largest product
-        for product in all_products:
-            if product > largest:
-                largest = product
-        return largest
+        return max(all_products)
