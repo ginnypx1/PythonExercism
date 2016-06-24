@@ -1,4 +1,5 @@
 from functools import reduce
+from operator import mul
 
 def slices(numstring, slice_length):
     """Chops a given string of numbers into all possible consecuctive slices of the given length
@@ -27,6 +28,6 @@ def largest_product(numstring, slice_length):
         all_products = []
         # find all of the products
         for every_slice in slices(numstring, slice_length):
-            slice_product = reduce(lambda x,y: x*y, every_slice)
+            slice_product = reduce(mul, every_slice)
             all_products.append(slice_product)
         return max(all_products)
